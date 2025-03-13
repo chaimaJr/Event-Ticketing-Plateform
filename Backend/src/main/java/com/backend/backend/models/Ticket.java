@@ -23,6 +23,10 @@ public class Ticket {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     @Enumerated(EnumType.STRING)
     private TicketStatus status;
 
