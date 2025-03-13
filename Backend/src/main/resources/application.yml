@@ -1,0 +1,19 @@
+spring:
+    application:
+        name: Backend
+    datasource:
+        url: jdbc:mysql://localhost:3306/event-tickets-db
+        username: root
+        password:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+        show-sql: true      # show executed queries
+        properties:
+          hibernate:
+            format_sql: true
+        database: mysql
+        database-platform: org.hibernate.dialect.MySQLDialect
+    jwt:
+        SECRET_KEY: "6C3E9F1A11E7A5D6A2C4B7F2D7A4E2F6B8C2A7D5E1B3F8E9C6A1B2C4D3E5F7A8"
