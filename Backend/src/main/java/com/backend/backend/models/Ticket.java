@@ -1,5 +1,6 @@
 package com.backend.backend.models;
 
+import com.backend.backend.enums.TicketStatus;
 import com.backend.backend.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

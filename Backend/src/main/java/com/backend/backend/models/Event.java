@@ -1,5 +1,7 @@
 package com.backend.backend.models;
 
+import com.backend.backend.enums.Category;
+import com.backend.backend.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

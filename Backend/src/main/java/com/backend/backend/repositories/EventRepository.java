@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    Event findByLocation(String location);
+    List<Event> findByLocation(String location);
 
     @Query("SELECT e FROM Event e WHERE e.ticketsSold < e.totalTickets")
     List<Event> findAvailableEvents();
