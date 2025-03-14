@@ -1,4 +1,4 @@
-package com.backend.backend.models;
+package com.backend.backend.enums;
 
 public enum EventStatus {
     SCHEDULED,
