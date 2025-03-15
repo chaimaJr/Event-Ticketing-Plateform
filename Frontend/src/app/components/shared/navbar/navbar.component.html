@@ -1,0 +1,48 @@
+<nav class="fixed top-0 left-0 w-full bg-deep-charcoal shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Left: Brand/Logo -->
+
+        <div class="flex gap-2">
+            <!-- <a routerLink="/" class="flex items-center">
+                <img src="assets/app-ticket-logo.png" alt="Eventify Logo" class="h-6 w-auto">
+            </a> -->
+            <a routerLink="/" class="text-soft-white text-2xl font-bold">Eventify</a>
+        </div>
+  
+        <!-- Center: Navigation Links (Hidden on Mobile) -->
+        <div class="hidden md:flex space-x-8">
+          <a routerLink="/" class="text-soft-white hover:text-vibrant-purple transition-colors">Home</a>
+          <a routerLink="/events" class="text-soft-white hover:text-vibrant-purple transition-colors">Events</a>
+          <a routerLink="/categories" class="text-soft-white hover:text-vibrant-purple transition-colors">Categories</a>
+        </div>
+  
+        <!-- Right: CTA Button (Hidden on Mobile) -->
+        <div class="hidden md:block">
+          <button class="bg-vibrant-purple text-soft-white px-4 py-2 rounded hover:bg-electric-blue transition-colors">
+            Login
+          </button>
+        </div>
+  
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button (click)="toggleMenu()" class="text-soft-white focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path *ngIf="!isMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+              <path *ngIf="isMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+  
+      <!-- Mobile Menu (Dropdown) -->
+      <div *ngIf="isMenuOpen" class="md:hidden bg-dark-slate px-2 pt-2 pb-3 space-y-1">
+        <a routerLink="/" class="block text-soft-white hover:text-vibrant-purple px-3 py-2 rounded transition-colors">Home</a>
+        <a routerLink="/events" class="block text-soft-white hover:text-vibrant-purple px-3 py-2 rounded transition-colors">Events</a>
+        <a routerLink="/categories" class="block text-soft-white hover:text-vibrant-purple px-3 py-2 rounded transition-colors">Categories</a>
+        <button class="w-full bg-vibrant-purple text-soft-white px-4 py-2 rounded hover:bg-electric-blue transition-colors">
+          Login
+        </button>
+      </div>
+    </div>
+  </nav>
