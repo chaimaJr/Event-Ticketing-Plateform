@@ -7,7 +7,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,6 +22,8 @@ public class EventService {
 
     private final EventRepository eventRepository;
 
+    // Directory for storing uploaded images (configure this in application.properties for production)
+    private static final String UPLOAD_DIR = "uploads/";
 
     // -------- Get --------
 
@@ -41,6 +48,26 @@ public class EventService {
         Event event = getById(id);
         return event.getTicketsSold();
     }
+
+
+    // -------- Image Upload --------
+    public String uploadImage(MultipartFile img) throws IOException{
+        if (!img.getContentType().startsWith("image/")) {
+            throw new IllegalArgumentException("Only image files are allowed (e.g., JPEG, PNG)");
+        }
+        String fileName = img.getOriginalFilename();
+        Path filePath = Paths.get(UPLOAD_DIR, fileName);
+
+        // Ensure the directory exists
+        Files.createDirectories(filePath.getParent());
+
+        // Save the file
+        Files.write(filePath, img.getBytes());
+    
+        // Return the URL
+        return UPLOAD_DIR + fileName;
+    }
+
 
 
     // -------- Create --------

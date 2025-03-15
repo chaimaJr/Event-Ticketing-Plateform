@@ -3,11 +3,12 @@ import { Event_ } from '../../../models/event/event_.model';
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {EventService} from "../../../services/event/event.service";
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-events-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './events-list.component.html',
   styleUrl: './events-list.component.css'
 })
@@ -16,11 +17,10 @@ export class EventsListComponent{
 
   constructor(private eventService: EventService) {}
   ngOnInit() {
-    console.log("Hi")
     this.getEventsList();
   }
 
-  private getEventsList() {
+  getEventsList() {
     this.eventService.getAll().subscribe({
       next: (data) => {
         this.events = data;
@@ -31,6 +31,8 @@ export class EventsListComponent{
       }
     });
   }
+
+  
 
 
 

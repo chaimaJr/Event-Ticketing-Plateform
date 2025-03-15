@@ -38,6 +38,23 @@ public class EventController {
         return ResponseEntity.status(201).body(eventService.create(event));
     }
 
+//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<Event> createEvent(
+//            @RequestPart("event") Event event,
+//            @RequestPart(value = "banner", required = false) MultipartFile bannerImg) throws IOException {
+//
+//        // Debugging
+//        System.out.println("Received event: " + event);
+//        System.out.println("Received banner: " + (bannerImg != null ? bannerImg.getOriginalFilename() : "null"));
+//        // ----------------
+//
+//        if (bannerImg != null && !bannerImg.isEmpty()) {
+//            String bannerUrl = eventService.uploadImage(bannerImg);
+//            event.setBannerUrl(bannerUrl);
+//        }
+//
+//        return ResponseEntity.status(201).body(eventService.create(event));
+//    }
 
     //    ---------- Update ----------
 

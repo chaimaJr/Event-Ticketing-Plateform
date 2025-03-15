@@ -1,1 +1,72 @@
-<p>create-event works!</p>
+<form (ngSubmit)="onSubmit()" class="max-w-4xl mx-auto mt-7 mb-6 p-6">
+    <p class="text-3xl mb-3 text-purple-400 font-bold tracking-wide">New Event</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-dark-slate shadow-lg rounded-lg p-6 border border-muted-gray/50">
+      <!-- Column 1 -->
+      <div class="flex flex-col space-y-5">
+        <div class="flex flex-col">
+          <label for="name" class="font-bold text-soft-white mb-1">Event Name:</label>
+          <input id="name" type="text" [(ngModel)]="event.name" name="name" class="w-full p-3 bg-zinc-800 text-soft-white border border-muted-gray rounded-lg focus:outline-none focus:border-electric-blue focus:ring-2 focus:ring-electric-blue/30 transition-all">
+        </div>
+  
+        <div class="flex flex-col">
+          <label for="description" class="font-bold text-soft-white mb-1">Description:</label>
+          <textarea id="description" [(ngModel)]="event.description" name="description" class="w-full p-3 bg-zinc-800 text-soft-white border border-muted-gray rounded-lg focus:outline-none focus:border-electric-blue focus:ring-2 focus:ring-electric-blue/30 transition-all resize-y h-24"></textarea>
+        </div>
+  
+        <div class="flex flex-col">
+          <label for="category" class="font-bold text-soft-white mb-1">Category:</label>
+          <select 
+            id="category" 
+            [(ngModel)]="event.category" 
+            name="category" 
+            class="w-full p-3 bg-zinc-800 text-soft-white border border-muted-gray rounded-lg focus:outline-none focus:border-electric-blue focus:ring-2 focus:ring-electric-blue/30 transition-all"
+            [disabled]="loading"
+          >
+            <option value="">Select a category</option>
+            <option *ngFor="let category of categories" [value]="category">
+              {{ category | titlecase }}
+            </option>
+          </select>
+          <div *ngIf="loading" class="text-soft-white mt-1">Loading categories...</div>
+          <div *ngIf="error" class="text-red-400 mt-1">{{ error }}</div>
+
+          <!-- <input id="category" type="text" [(ngModel)]="event.category" name="category" class="w-full p-3 bg-zinc-800 text-soft-white border border-muted-gray rounded-lg focus:outline-none focus:border-electric-blue focus:ring-2 focus:ring-electric-blue/30 transition-all"> -->
+        </div>
+        <div class="flex flex-col">
+            <label for="date" class="font-bold text-soft-white mb-1">Date and Time:</label>
+            <input id="date" type="datetime-local" [(ngModel)]="event.date" name="date" class="w-full p-3 bg-zinc-800 text-soft-white border border-muted-gray rounded-lg focus:outline-none focus:border-electric-blue focus:ring-2 focus:ring-electric-blue/30 transition-all">
+          </div>
+    
+      </div>
+  
+      <!-- Column 2 -->
+      <div class="flex flex-col space-y-5">
+        
+        <div class="flex flex-col">
+          <label for="location" class="font-bold text-soft-white mb-1">Location:</label>
+          <input id="location" type="text" [(ngModel)]="event.location" name="location" class="w-full p-3 bg-zinc-800 text-soft-white border border-muted-gray rounded-lg focus:outline-none focus:border-electric-blue focus:ring-2 focus:ring-electric-blue/30 transition-all">
+        </div>
+  
+        <div class="flex flex-col">
+          <label for="price" class="font-bold text-soft-white mb-1">Price:</label>
+          <input id="price" type="number" [(ngModel)]="event.price" name="price" min="0" class="w-full p-3 bg-zinc-800 text-soft-white border border-muted-gray rounded-lg focus:outline-none focus:border-electric-blue focus:ring-2 focus:ring-electric-blue/30 transition-all">
+        </div>
+  
+        <div class="flex flex-col">
+          <label for="totalTickets" class="font-bold text-soft-white mb-1">Total Tickets:</label>
+          <input id="totalTickets" type="number" [(ngModel)]="event.totalTickets" name="totalTickets" min="1" class="w-full p-3 bg-zinc-800 text-soft-white border border-muted-gray rounded-lg focus:outline-none focus:border-electric-blue focus:ring-2 focus:ring-electric-blue/30 transition-all">
+        </div>
+  
+        <div class="flex flex-col">
+          <label for="banner" class="font-bold text-soft-white mb-1">Placeholder Banner Image:</label>
+          <input id="banner" type="file" accept="image/*" class="w-full p-3 bg-zinc-800 text-soft-white border border-muted-gray rounded-lg file:bg-electric-blue file:text-soft-white file:border-none file:p-2 file:rounded file:hover:bg-sky-700 transition-all">
+        </div>
+
+      </div>
+    </div>
+  
+    <!-- Button -->
+    <div class="mt-6">
+      <button type="submit" class="w-full p-3 bg-vibrant-purple text-soft-white rounded-lg hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-forest-green/50 transition-all duration-300 font-semibold">Create Event</button>
+    </div>
+  </form>

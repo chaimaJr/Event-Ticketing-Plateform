@@ -1,1 +1,53 @@
-<p>events-list works!</p>
+<!-- events-list.component.html -->
+<div class="events-container p-6 rounded-lg max-w-7xl mx-auto">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+      class="event-card flex bg-dark-slate shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow relative"
+      *ngFor="let event of events"
+    >
+      <!-- Left: Banner Image with Narrow Gradient -->
+      <div class="banner w-1/3 relative">
+        <img
+          [src]="event.bannerUrl || 'assets/images/events/event-default.jpg'"
+          alt="{{ event.name }} banner"
+          class="w-full h-full object-cover"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-transparent to-dark-slate"
+          style="background: linear-gradient(to right, transparent 70%, #2D2D2D 100%)"
+        ></div>
+      </div>
+      <!-- Right: Event Details -->
+      <div class="details w-2/3 py-4 pr-4 pl-2 flex flex-col justify-between relative ml-auto bg-dark-slate">
+        <div class="relative z-10">
+          <h3 class="text-soft-white text-lg font-bold mb-2 line-clamp-1">
+            {{ event.name }}
+          </h3>
+          <p class="text-muted-gray text-sm mb-1">
+            <span class="font-semibold">Date:</span>
+            {{ event.date | date : "medium" }}
+          </p>
+          <p class="text-muted-gray text-sm mb-1">
+            <span class="font-semibold">Location:</span> {{ event.location }}
+          </p>
+          <p class="text-muted-gray text-sm mb-1">
+            <span class="font-semibold">Price:</span>
+            {{ event.price | currency }}
+          </p>
+          <p class="text-muted-gray text-sm">
+            <span class="font-semibold">Category:</span>
+            <span
+              class="inline-block bg-electric-blue text-soft-white text-xs px-2 py-1 ml-1 rounded"
+              >{{ event.category }}</span
+            >
+          </p>
+        </div>
+        <button
+          class="bg-vibrant-purple text-soft-white px-3 py-1 text-sm rounded mt-3 hover:bg-electric-blue transition-colors relative z-10"
+        >
+          Buy Tickets
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
