@@ -32,9 +32,9 @@ public class FilesController {
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
-            storageService.save(file);
+            String filename = storageService.save(file);
 
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            message = "Uploaded the file successfully: " + filename;
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();

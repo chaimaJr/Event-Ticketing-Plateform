@@ -4,6 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {EventService} from "../../../services/event/event.service";
 import { RouterModule } from '@angular/router';
+import { API_URL } from '../../../../main';
 
 @Component({
   selector: 'app-events-list',
@@ -14,6 +15,7 @@ import { RouterModule } from '@angular/router';
 })
 export class EventsListComponent{
   events? : Event_[];
+  private baseUrl = API_URL + '/events';
 
   constructor(private eventService: EventService) {}
   ngOnInit() {
@@ -32,8 +34,11 @@ export class EventsListComponent{
     });
   }
 
-  
+  getBannerUrl(bannerUrl: any): string {
+    return bannerUrl ? `${this.baseUrl}/images/${bannerUrl}` : 'assets/images/events/event-default.jpg';
+  }
 
+  
 
 
 }

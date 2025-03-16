@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
@@ -26,7 +28,8 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private EventStatus status;
 
-    private LocalDateTime date;
+    private LocalDate date;
+    private LocalTime time;
     private String location;
     private String bannerUrl;
     private float price;

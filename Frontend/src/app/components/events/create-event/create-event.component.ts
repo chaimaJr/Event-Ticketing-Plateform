@@ -18,13 +18,19 @@ export class CreateEventComponent {
   categories: string[] = [];
   loading: boolean = false;
   error: string | null = null;
+  selectedFile?: File;
+  previewUrl: string | undefined;
+
 
   constructor(private eventService: EventService, private enumService: EnumService) {}
 
   ngOnInit(): void {
+    this.event.date = '2025-03-20';
+    this.event.time = '22:00';
+    this.event.category = 'OTHER'
     this.fetchCategories();
   }
-
+ 
   fetchCategories(): void {
     this.loading = true;
     this.enumService.getCategories().subscribe({
@@ -40,8 +46,28 @@ export class CreateEventComponent {
     });
   }
 
+  // Handle file selection
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.previewUrl = e.target.result; // Set the preview URL
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.selectedFile = undefined; // Clear file if no file
+      this.previewUrl = undefined; // Clear preview if no file
+    }
+  }
+
+
   onSubmit() {
-    this.eventService.create(this.event)
+    // if(this.selectedFile == null) {
+    //   this.selectedFile = null
+    // }
+    this.eventService.create(this.event, this.selectedFile)
       .subscribe({
         next: (createdEvent) => {
           console.log('Event created:', createdEvent);
@@ -53,10 +79,14 @@ export class CreateEventComponent {
           alert('Failed to create event: ' + err.message);
         }
       });
+    
   }
 
   resetForm() {
     this.event = new Event_();
+    this.event.date = '2025-03-20';
+    this.event.time = '22:00';
+    this.event.category = 'OTHER'
   }
 
 }

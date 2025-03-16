@@ -20,21 +20,17 @@ export class EventService {
     return this.http.get<Event_>(`${this.baseUrl}/${id}`);
   }
 
-  create(event: Event_): Observable<Event_> {
-    return this.http.post<Event_>(this.baseUrl, event);
+  create(event: Event_, file?: File): Observable<Event_> {
+    const formData = new FormData();
+    formData.append('event', JSON.stringify(event));
+    
+    if (file) {
+      formData.append('file', file); // Add file if provided
+    }
+
+    return this.http.post<Event_>(this.baseUrl, formData);
   }
-  // createEvent(event: Event_, banner?: File): Observable<Event_> {
-  //   const formData = new FormData();
-  //   formData.append('event', new Blob([JSON.stringify(event)], { type: 'application/json' }));
-  //   if (banner) {
-  //     formData.append('banner', banner, banner.name);
-  //   }
-
-  //   return this.http.post<Event_>(this.baseUrl, formData);
-  // }
-
-
-
+  
 
   update(id:number, event: Event_): Observable<Event_> {
     return this.http.put<Event_>(`${this.baseUrl}/${id}`, event);

@@ -1,12 +1,24 @@
 package com.backend.backend.controllers;
 
 import com.backend.backend.models.Event;
+import com.backend.backend.models.ResponseMessage;
 import com.backend.backend.services.EventService;
+import com.backend.backend.services.StorageService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -15,6 +27,7 @@ import java.util.List;
 public class EventController {
 
     private final EventService eventService;
+    private final StorageService storageService;
 
 
 //    ---------- Get ----------
@@ -30,13 +43,60 @@ public class EventController {
         return ResponseEntity.ok(eventService.getById(id));
     }
 
+    // New endpoint to serve images
+    @GetMapping("/images/{filename:.+}")
+    public ResponseEntity<Resource> getImage(@PathVariable String filename) {
+        Resource file = storageService.load(filename);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG) // Adjust based on file type if needed
+                .body(file);
+    }
 
 //    ---------- Create ----------
 
-    @PostMapping
-    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-        return ResponseEntity.status(201).body(eventService.create(event));
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResponseMessage> createEvent(
+            @RequestPart(value = "event") String eventJson,
+            @RequestPart(value = "file", required = false) MultipartFile file) {
+
+        Event event = new Event();
+
+        if (eventJson != null && !eventJson.trim().isEmpty()) {
+            try {
+                ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+                event = mapper.readValue(eventJson, Event.class);
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new ResponseMessage("Invalid event data: " + e.getMessage()));
+            }
+        }
+
+        String message = "";
+        if(file != null) {
+            try {
+                String bannerUrl = storageService.save(file);
+                event.setBannerUrl(bannerUrl.replace("/uploads/", "")); // Store just "filename.jpg"
+//                event.setBannerUrl(bannerUrl);
+                message = "Uploaded file: " + file.getOriginalFilename();
+            } catch (Exception e) {
+                message = "File upload failed: " + e.getMessage();
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+            }
+        }
+
+        try {
+            eventService.create(event);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(new ResponseMessage("Event creation failed: " + e.getMessage()));
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(message));
     }
+
+//    @PostMapping
+//    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+//        return ResponseEntity.status(201).body(eventService.create(event));
+//    }
 
 //    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 //    public ResponseEntity<Event> createEvent(

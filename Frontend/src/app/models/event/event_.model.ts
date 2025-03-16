@@ -4,7 +4,8 @@ export class Event_ {
   description?: string;
   category?: string;
   status?: 'ACTIVE' | 'CANCELED' | 'SOLD_OUT';
-  date?: string; // ISO string
+  date?: string;
+  time?: string;
   location?: string;
   bannerUrl?: string;
   price?: number;

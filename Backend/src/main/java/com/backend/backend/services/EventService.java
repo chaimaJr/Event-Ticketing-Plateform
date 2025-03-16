@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public class EventService {
 
     private final EventRepository eventRepository;
+
 
     // Directory for storing uploaded images (configure this in application.properties for production)
     private static final String UPLOAD_DIR = "uploads/";
@@ -50,25 +52,25 @@ public class EventService {
     }
 
 
-    // -------- Image Upload --------
-    public String uploadImage(MultipartFile img) throws IOException{
-        if (!img.getContentType().startsWith("image/")) {
-            throw new IllegalArgumentException("Only image files are allowed (e.g., JPEG, PNG)");
-        }
-        String fileName = img.getOriginalFilename();
-        Path filePath = Paths.get(UPLOAD_DIR, fileName);
-
-        // Ensure the directory exists
-        Files.createDirectories(filePath.getParent());
-
-        // Save the file
-        Files.write(filePath, img.getBytes());
-    
-        // Return the URL
-        return UPLOAD_DIR + fileName;
-    }
-
-
+//    // -------- Image Upload --------
+//    public String uploadImage(MultipartFile img) throws IOException{
+//        if (!img.getContentType().startsWith("image/")) {
+//            throw new IllegalArgumentException("Only image files are allowed (e.g., JPEG, PNG)");
+//        }
+//        String fileName = img.getOriginalFilename();
+//        Path filePath = Paths.get(UPLOAD_DIR, fileName);
+//
+//        // Ensure the directory exists
+//        Files.createDirectories(filePath.getParent());
+//
+//        // Save the file
+//        Files.write(filePath, img.getBytes());
+//
+//        // Return the URL
+//        return UPLOAD_DIR + fileName;
+//    }
+//
+//
 
     // -------- Create --------
 
@@ -77,7 +79,7 @@ public class EventService {
         if(event.getName() == null || event.getName().isEmpty()) {
             throw new RuntimeException("Event name cannot be empty");
         }
-        if(event.getDate() == null || event.getDate().isBefore(LocalDateTime.now())) {
+        if(event.getDate() == null || event.getDate().isBefore(LocalDate.now())) {
             throw new RuntimeException("Event date should be in the future");
         }
         event.setTicketsSold(0);
